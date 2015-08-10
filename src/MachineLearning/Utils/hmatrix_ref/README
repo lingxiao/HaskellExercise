@@ -1,0 +1,112 @@
+-----------------------------------------
+ A simple scientific library for Haskell
+-----------------------------------------
+
+INSTALLATION
+
+See the INSTALL file.
+
+TESTS ---------------------------------------------
+
+$ ghci
+Prelude> Numeric.LinearAlgebra.Tests.runTests 20
+
+EXAMPLES ------------------------------------------------------
+
+$ ghci
+Prelude> :m + Numeric.GSL
+Prelude Numeric.GSL> let quad = integrateQNG 1E-10
+Prelude Numeric.GSL> quad (^2) 0 1
+(0.3333333333333333,3.700743415417188e-15)
+
+Prelude Numeric.GSL> :m + Numeric.LinearAlgebra
+Prelude Numeric.LinearAlgebra> let m = (2><3)[1,2,3,4,5,6::Double]
+Prelude Numeric.LinearAlgebra> let (u,d,v) = full svd m
+Prelude Numeric.LinearAlgebra> d
+(2><3)
+ [ 9.508032000695724,                0.0, 0.0
+ ,               0.0, 0.7728696356734838, 0.0 ]
+Prelude Numeric.LinearAlgebra> u <> d <> trans v
+(2><3)
+ [ 1.0000000000000004,               2.0, 3.0
+ , 3.9999999999999996, 5.000000000000001, 6.0 ]
+Prelude Numeric.GSL> :q
+Leaving GHCi.
+
+A number of illustrative programs are included in the examples folder.
+
+KNOWN PROBLEMS / BUGS -------------------------------
+
+- On 64-bit machines the example "minimize.hs", when run from ghci,
+  produces a segmentation fault. It happens in the call to
+  gsl_multimin_fdfminimizer_alloc, inside the C wrapper.
+  If the program is called by runhaskell, it just terminates
+  prematurely, producing no results. Curiously, in compiled mode the
+  program seems to work perfectly well.
+
+- On Ubuntu 6.06 LTS (Dapper) atlas3-sse2-dev (3.6.0-20)
+  produced segmentation faults when working with big matrices
+  on compiled programs.
+
+ACKNOWLEDGEMENTS -----------------------------------------------------
+
+I thank Don Stewart, Henning Thielemann, Bulat Ziganshin, Heinrich Apfelmus,
+and all the people in the Haskell mailing lists for their help.
+
+- Nico Mahlo discovered a bug in the eigendecomposition wrapper.
+
+- Frederik Eaton discovered a bug in the design of the wrappers.
+
+- Eric Kidd has created a wiki page explaining the installation on MacOS X:
+  http://www.haskell.org/haskellwiki/GSLHaskell_on_MacOS_X
+
+- Fawzi Mohamed discovered a portability bug in the lapack wrappers.
+
+- Pedro E. López de Teruel fixed the interface to lapack.
+
+- Antti Siira discovered a bug in the plotting functions.
+
+- Paulo Tanimoto helped to fix the configuration of the required libraries.
+  He also discovered the segfault of minimize.hs in ghci.
+
+- Xiao-Yong Jin reported a bug on x86_64 caused by the assumptions in f2c.h,
+  which are wrong for this architecture.
+
+- Jason Schroeder reported an error in the documentation.
+
+- Bulat Ziganshin gave invaluable help for the ST monad interface to
+  in-place modifications.
+
+- Don Stewart fixed the implementation of the internal data structures
+  to achieve excellent, C-like performance in Haskell functions which
+  explicitly work with the elements of vectors and matrices.
+
+- Dylan Alex Simon improved the numeric instances to allow optimized
+  implementations of signum and abs on Vectors.
+
+- Pedro E. López de Teruel discovered the need of asm("finit") to
+  avoid the wrong NaNs produced by foreign functions.
+
+- Reiner Pope added support for luSolve, based on (d|z)getrs.
+
+- Simon Beaumont reported the need of QuickCheck<2 and the invalid
+  asm("finit") on ppc. He also contributed the configuration options
+  for the accelerate framework on OS X.
+
+- Daniel Schüssler added compatibility with QuickCheck 2 as well
+  as QuickCheck 1 using the C preprocessor. He also added some
+  implementations for the new "shrink" method of class Arbitrary.
+
+- Tracy Wadleigh improved the definitions of (|>) and (><), which now
+  apply an appropriate 'take' to the given lists so that they may be
+  safely used on lists that are too long (or infinite).
+
+- Chris Waterson improved the configure.hs program for OS/X.
+
+- Erik de Castro Lopo added buildVector and buildMatrix, which take a
+  size parameter(s) and a function that maps vector/matrix indices
+  to the values at that position.
+
+- Jean-Francois Tremblay discovered an error in the tutorial.
+
+- Heinrich Apfelmus fixed hmatrix.cabal for OS/X.

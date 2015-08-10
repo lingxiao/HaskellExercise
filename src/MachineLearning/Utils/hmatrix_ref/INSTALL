@@ -1,0 +1,56 @@
+-----------------------------------------
+ A simple scientific library for Haskell
+-----------------------------------------
+
+INSTALLATION
+
+Recommended method (ok in Ubuntu/Debian systems):
+    $ sudo apt-get install libgsl0-dev liblapack-dev
+    $ cabal install hmatrix
+
+Detailed installation instructions:
+    http://www.hmatrix.googlepages.com/installation
+
+INSTALLATION ON WINDOWS ----------------------------------------
+
+1) Install a recent ghc (e.g. ghc-6.10.3)
+
+2) Install cabal-install. A binary for windows can be obtained from:
+
+   http://www.haskell.org/cabal/release/cabal-install-0.6.2/cabal.exe
+
+   Put it somewhere in the path, for instance in c:\ghc\ghc-6.10.3\bin
+
+3) Download and uncompress in a temporary location the following file:
+
+   http://code.haskell.org/hmatrix/gsl-lapack-windows.zip
+
+   It contains a folder, gsl, and four DLL's.
+
+4) Move the gsl folder to C:\ghc\ghc-6.10.3\include
+
+5) Move the four DLL's to C:\ghc\ghc-6.10.3\bin
+
+6) Download and uncompress hmatrix-x.y.z.tar.gz from Hackage:
+
+   http://hackage.haskell.org/cgi-bin/hackage-scripts/package/hmatrix
+
+7) Edit hmatrix.cabal:
+
+     line 17:      build-type:         Custom
+     change to:    build-type:         Simple
+
+     and at the end of the file add:
+
+        extra-libraries: libgsl-0 blas lapack
+        extra-lib-dirs: c:\ghc\ghc-6.10.3\bin
+
+8) Open a terminal, cd to the hmatrix folder, and run
+
+   > cabal install
+
+9) If everything is ok we can run the tests:
+
+   > runhaskell examples\tests.hs
+
+NOTE: The examples using graphics do not yet work in windows.

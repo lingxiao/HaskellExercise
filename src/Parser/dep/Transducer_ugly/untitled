@@ -1,0 +1,33 @@
+{-# LANGUAGE MultiParamTypeClasses #-}
+
+---------------------------------------------------------------------------------------------------
+-- Weighted Finite Transducer Primitive Types
+---------------------------------------------------------------------------------------------------
+
+module TransducerTypes (
+
+	-- * Primitives
+
+	Symbol (..),
+	Input,
+	Output,
+	Tstate,
+	InitSt,
+	FinalSt,
+	Prob,
+
+	-- * User Specified format
+
+	TransitionCell,
+	TransitionTable,
+	toProbTable,
+	toTable,
+	epsArc,
+
+	-- * global test symbols -> to be deleted
+	Alpha(..), Beta (..)
+
+) where
+
+import Control.Monad
+import Data.Maybe
